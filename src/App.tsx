@@ -10,7 +10,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen flex-col bg-ink">
       <Navbar />
-      <div className="flex-1">
+      <div className="flex-1 min-h-[calc(100vh-4rem)]">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/shop" element={<Shop />} />

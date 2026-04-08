@@ -75,7 +75,7 @@ export function Home() {
     <main>
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-radial-hero" />
-        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-20">
+        <div className="relative mx-auto max-w-6xl px-4 py-16 sm:py-20 min-h-[calc(100vh-4rem)]">
           <div className="max-w-2xl">
             {/* <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-night/50 px-3 py-1.5 text-xs text-white/70 shadow-card">
               <span className="h-1.5 w-1.5 rounded-full bg-neonPink shadow-glowPink" />
