@@ -34,7 +34,7 @@ export function Footer() {
               Helmetarium
             </div>
             <p className="mt-2 max-w-sm text-sm text-white/70">
-              Motorcycle gear & accessories.
+              Rider-inspired restaurant & bar.
             </p>
           </div>
 

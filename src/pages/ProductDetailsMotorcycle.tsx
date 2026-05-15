@@ -6,14 +6,14 @@ import {
   faAward,
   faBoxOpen,
   faCircleHalfStroke,
-  faClock,
   faCube,
+  faDumbbell,
   faLayerGroup,
   faRulerCombined,
   faShieldHalved,
   faTag,
 } from "@fortawesome/free-solid-svg-icons";
-import { PRODUCTS } from "../data/products";
+import { MOTORCYCLE_PRODUCTS } from "../data/products";
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -37,31 +37,29 @@ function sectionTitle(icon: React.ReactNode, title: string) {
   );
 }
 
-export function ProductDetails() {
+export function ProductDetailsMotorcycle() {
   const { id } = useParams<{ id: string }>();
-  const product = React.useMemo(() => PRODUCTS.find((p) => p.id === id), [id]);
+  const product = React.useMemo(() => MOTORCYCLE_PRODUCTS.find((p) => p.id === id), [id]);
 
-  const [selectedDietary, setSelectedDietary] = React.useState<string | null>(
-    null,
-  );
+  const [selectedColor, setSelectedColor] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!product) return;
-    setSelectedDietary(product.colors[0] ?? null);
+    setSelectedColor(product.colors[0] ?? null);
   }, [product]);
 
   if (!product) {
     return (
       <main className="mx-auto max-w-6xl px-4 py-10">
         <div className="rounded-2xl border border-white/10 bg-night/40 p-10 text-center text-white/70 shadow-card">
-          Menu item not found.
+          Product not found.
           <div className="mt-6">
             <Link
-              to="/menu"
+              to="/shop"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-ink/30 px-4 py-2.5 text-sm font-semibold text-white/75 transition hover:border-neonPink/25 hover:text-white"
             >
               <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
-              Back to Menu
+              Back to Shop
             </Link>
           </div>
         </div>
@@ -69,47 +67,43 @@ export function ProductDetails() {
     );
   }
 
-  const dietaryBadges = product.tags.filter((t) =>
-    /Vegan|Vegetarian|Gluten-Free|Spicy|Signature|Chef's Choice/i.test(t),
-  );
-  const chef = product.chef ?? "Helmetarium Kitchen";
-  const itemCode = `MENU-${product.id.toUpperCase()}`;
-  const prepMinutes = product.prepMinutes ?? 15;
-  const calories = product.calories ?? 0;
-  const ingredients =
-    product.ingredients ??
-    (product.category === "Appetizers"
-      ? ["Seasonal produce", "House dressing", "Crisp elements"]
-      : product.category === "Mains"
-        ? ["Premium protein", "Seasonal sides", "Signature sauce"]
-        : product.category === "Desserts"
-          ? ["Sweet cream", "Fruit compote", "Pastry base"]
-          : ["Premium coffee", "Fresh herbs", "Sparkling water"]);
-  const highlights = product.features ?? [
-    "Restaurant-grade presentation",
-    "Bold rider-inspired flavors",
-    "Neon dining experience",
-    "Crafted to share",
+  const certificates =
+    product.certificates ??
+    product.tags.filter((t) => /(^CE\b|ECE\b|Rated\b|Armor\b)/i.test(t));
+  const brand = product.brand ?? "Helmetarium";
+  const sku = product.sku ?? `HLMT-${product.id.toUpperCase()}`;
+  const materials =
+    product.materials ??
+    (product.category === "Helmets"
+      ? ["Polycarbonate shell", "Multi-density EPS", "Moisture-wick liner"]
+      : product.category === "Gloves"
+        ? ["Synthetic leather", "Stretch mesh", "Impact foam"]
+        : ["Abrasion-resistant textile", "Reinforced stitching", "Vent panels"]);
+  const features = product.features ?? [
+    "Premium neon-series finish",
+    "Optimized for daily rides",
+    "Comfort-focused ergonomics",
+    "Easy-care materials",
   ];
-  const servedWith =
-    product.servedWith ??
-    (product.category === "Drinks"
-      ? ["Garnish", "Side shot"]
-      : ["Signature side", "Fresh herbs"]);
+  const inBox =
+    product.inBox ??
+    (product.category === "Helmets"
+      ? ["Helmet", "Pinlock-ready insert (model dependent)", "Carry bag"]
+      : ["Item", "Care guide"]);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
       <div className="mb-6 flex items-center justify-between gap-4">
         <Link
-          to="/menu"
+          to="/shop"
           className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-ink/30 px-3 py-2 text-sm font-semibold text-white/75 transition hover:border-neonPink/25 hover:text-white"
         >
           <FontAwesomeIcon icon={faArrowLeft} className="h-4 w-4" />
           Back
         </Link>
         <div className="hidden rounded-2xl border border-white/10 bg-night/40 px-4 py-2.5 text-sm text-white/70 shadow-card sm:block">
-          <span className="text-white/50">Item code:</span>{" "}
-          <span className="text-white/90">{itemCode}</span>
+          <span className="text-white/50">SKU:</span>{" "}
+          <span className="text-white/90">{sku}</span>
         </div>
       </div>
 
@@ -130,16 +124,11 @@ export function ProductDetails() {
           <div className="p-5">
             <div className="text-sm text-white/55">
               {product.category} · {product.subcategory} ·{" "}
-              <span className="text-white/70">{chef}</span>
+              <span className="text-white/70">{brand}</span>
             </div>
             <h1 className="mt-1 text-2xl font-semibold tracking-tight text-white/95 sm:text-3xl">
               {product.name}
             </h1>
-            {product.description ? (
-              <p className="mt-3 text-sm text-white/65">
-                {product.description}
-              </p>
-            ) : null}
 
             <div className="mt-4 flex flex-wrap items-center gap-3">
               <div className="rounded-2xl border border-neonPink/35 bg-neonPink/15 px-4 py-2 text-neonPink shadow-glowPink">
@@ -170,20 +159,18 @@ export function ProductDetails() {
           <section className="rounded-2xl border border-white/10 bg-night/40 p-5 shadow-card">
             {sectionTitle(
               <FontAwesomeIcon icon={faCircleHalfStroke} className="h-4 w-4" />,
-              "Choose your preferences",
+              "Pick your style",
             )}
 
             <div className="mt-4">
-              <div className="text-xs font-semibold text-white/55">
-                Dietary options
-              </div>
+              <div className="text-xs font-semibold text-white/55">Colors</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {product.colors.map((c) => (
                   <button
                     key={c}
                     type="button"
-                    onClick={() => setSelectedDietary(c)}
-                    className={chipClass(selectedDietary === c)}
+                    onClick={() => setSelectedColor(c)}
+                    className={chipClass(selectedColor === c)}
                   >
                     {c}
                   </button>
@@ -197,14 +184,9 @@ export function ProductDetails() {
                   <FontAwesomeIcon icon={faRulerCombined} className="h-4 w-4" />
                   Selected
                 </span>
-                <span className="text-white/85">{selectedDietary ?? "—"}</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-ink/30 px-3 py-2">
-                <span className="flex items-center gap-2 text-white/60">
-                  <FontAwesomeIcon icon={faClock} className="h-4 w-4" />
-                  Prep time
+                <span className="text-white/85">
+                  {selectedColor ?? "—"}
                 </span>
-                <span className="text-white/85">{prepMinutes} min</span>
               </div>
             </div>
           </section>
@@ -212,39 +194,44 @@ export function ProductDetails() {
           <section className="rounded-2xl border border-white/10 bg-night/40 p-5 shadow-card">
             {sectionTitle(
               <FontAwesomeIcon icon={faLayerGroup} className="h-4 w-4" />,
-              "Details",
+              "Specifications",
             )}
 
             <dl className="mt-4 grid gap-3 text-sm">
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-ink/30 px-3 py-2">
-                <dt className="text-white/55">Chef</dt>
-                <dd className="text-white/85">{chef}</dd>
+                <dt className="text-white/55">Brand</dt>
+                <dd className="text-white/85">{brand}</dd>
               </div>
               <div className="flex items-center justify-between rounded-xl border border-white/10 bg-ink/30 px-3 py-2">
-                <dt className="text-white/55">Calories</dt>
-                <dd className="text-white/85">{calories} kcal</dd>
+                <dt className="text-white/55">SKU</dt>
+                <dd className="text-white/85">{sku}</dd>
               </div>
-              <div className="flex items-center justify-between rounded-xl border border-white/10 bg-ink/30 px-3 py-2">
-                <dt className="text-white/55">Item code</dt>
-                <dd className="text-white/85">{itemCode}</dd>
-              </div>
+              {typeof product.weightGrams === "number" ? (
+                <div className="flex items-center justify-between rounded-xl border border-white/10 bg-ink/30 px-3 py-2">
+                  <dt className="flex items-center gap-2 text-white/55">
+                    <FontAwesomeIcon icon={faDumbbell} className="h-4 w-4" />
+                    Weight
+                  </dt>
+                  <dd className="text-white/85">{product.weightGrams} g</dd>
+                </div>
+              ) : null}
             </dl>
           </section>
 
           <section className="rounded-2xl border border-white/10 bg-night/40 p-5 shadow-card">
             {sectionTitle(
               <FontAwesomeIcon icon={faShieldHalved} className="h-4 w-4" />,
-              "Ingredients & highlights",
+              "Materials & features",
             )}
 
             <div className="mt-4 grid gap-4">
               <div className="rounded-xl border border-white/10 bg-ink/30 p-4">
                 <div className="text-xs font-semibold text-white/55">
                   <FontAwesomeIcon icon={faCube} className="mr-2 h-4 w-4" />
-                  Ingredients
+                  Materials
                 </div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-white/70">
-                  {ingredients.map((m) => (
+                  {materials.map((m) => (
                     <li key={m}>{m}</li>
                   ))}
                 </ul>
@@ -256,10 +243,10 @@ export function ProductDetails() {
                     icon={faShieldHalved}
                     className="mr-2 h-4 w-4"
                   />
-                  Highlights
+                  Features
                 </div>
                 <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-white/70">
-                  {highlights.map((f) => (
+                  {features.map((f) => (
                     <li key={f}>{f}</li>
                   ))}
                 </ul>
@@ -270,15 +257,15 @@ export function ProductDetails() {
           <section className="rounded-2xl border border-white/10 bg-night/40 p-5 shadow-card">
             {sectionTitle(
               <FontAwesomeIcon icon={faAward} className="h-4 w-4" />,
-              "Dietary badges",
+              "Certificates",
             )}
             <div className="mt-4 flex flex-wrap gap-2">
-              {dietaryBadges.length === 0 ? (
+              {certificates.length === 0 ? (
                 <span className="text-sm text-white/60">
-                  No dietary badges listed.
+                  No certifications listed.
                 </span>
               ) : (
-                dietaryBadges.map((c) => (
+                certificates.map((c) => (
                   <span
                     key={c}
                     className="rounded-full border border-white/10 bg-ink/30 px-3 py-1 text-xs font-semibold text-white/70"
@@ -293,10 +280,10 @@ export function ProductDetails() {
           <section className="rounded-2xl border border-white/10 bg-night/40 p-5 shadow-card">
             {sectionTitle(
               <FontAwesomeIcon icon={faBoxOpen} className="h-4 w-4" />,
-              "Served with",
+              "In the box",
             )}
             <ul className="mt-4 list-disc space-y-1 pl-5 text-sm text-white/70">
-              {servedWith.map((x) => (
+              {inBox.map((x) => (
                 <li key={x}>{x}</li>
               ))}
             </ul>

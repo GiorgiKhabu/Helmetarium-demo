@@ -48,7 +48,7 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         <Link
-          to={`/product/${product.id}`}
+          to={product.category === "Appetizers" || product.category === "Mains" || product.category === "Desserts" || product.category === "Drinks" ? `/item/${product.id}` : `/product/${product.id}`}
           className="mt-auto inline-flex w-full items-center justify-center gap-2 rounded-xl border border-neonPink/30 bg-neonPink/15 px-4 py-2.5 text-sm font-semibold text-neonPink shadow-glowPink transition hover:bg-neonPink/20 hover:shadow-glowPinkStrong active:translate-y-[1px]"
         >
           See details

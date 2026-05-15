@@ -1,8 +1,10 @@
 import React from "react";
-import type { Category, Filters } from "../types";
-import { CATEGORIES, COLORS, SUBCATEGORIES } from "../data/products";
-
-const SIZES: Filters["sizes"] = ["S", "M", "L", "XL"];
+import type { Filters } from "../types";
+import {
+  CATEGORIES,
+  DIETARY_OPTIONS,
+  SUBCATEGORIES,
+} from "../data/products";
 
 function cx(...classes: Array<string | false | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -37,15 +39,21 @@ export function FilterSidebar({
   filters,
   onChange,
   onReset,
+  categories = CATEGORIES,
+  subcategories = SUBCATEGORIES,
+  colorLabel = "Dietary",
+  colorOptions = Array.from(DIETARY_OPTIONS),
 }: {
   filters: Filters;
   onChange: (next: Filters) => void;
   onReset: () => void;
+  categories?: readonly string[];
+  subcategories?: Record<string, string[]>;
+  colorLabel?: string;
+  colorOptions?: string[];
 }) {
   const subcats =
-    filters.category === "All"
-      ? []
-      : (SUBCATEGORIES[filters.category as Category] ?? []);
+    filters.category === "All" ? [] : (subcategories[filters.category] ?? []);
 
   return (
     <aside className="rounded-2xl border border-white/10 bg-night/40 p-4 shadow-card">
@@ -80,7 +88,7 @@ export function FilterSidebar({
             >
               All
             </TogglePill>
-            {CATEGORIES.map((c) => (
+            {categories.map((c) => (
               <TogglePill
                 key={c}
                 active={filters.category === c}
@@ -125,10 +133,10 @@ export function FilterSidebar({
 
         <section>
           <div className="text-xs font-semibold tracking-wide text-white/70">
-            Color
+            {colorLabel}
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            {COLORS.map((c) => {
+            {colorOptions.map((c) => {
               const active = filters.colors.includes(c);
               return (
                 <TogglePill
@@ -144,33 +152,6 @@ export function FilterSidebar({
                   }
                 >
                   {c}
-                </TogglePill>
-              );
-            })}
-          </div>
-        </section>
-
-        <section>
-          <div className="text-xs font-semibold tracking-wide text-white/70">
-            Size
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {SIZES.map((s) => {
-              const active = filters.sizes.includes(s);
-              return (
-                <TogglePill
-                  key={s}
-                  active={active}
-                  onClick={() =>
-                    onChange({
-                      ...filters,
-                      sizes: active
-                        ? filters.sizes.filter((x) => x !== s)
-                        : [...filters.sizes, s],
-                    })
-                  }
-                >
-                  {s}
                 </TogglePill>
               );
             })}

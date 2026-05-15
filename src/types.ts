@@ -1,4 +1,4 @@
-export type Category = 'Helmets' | 'Gloves' | 'Gear' | 'Accessories';
+export type Category = string;
 
 export type Product = {
   id: string;
@@ -7,28 +7,32 @@ export type Product = {
   category: Category;
   subcategory: string;
   colors: string[];
-  sizes: Array<'S' | 'M' | 'L' | 'XL'>;
   tags: string[];
   imageDataUri: string;
 
-  // Optional extended details (used on the product details page).
+  // Optional extended details for restaurant menu items
+  chef?: string;
+  calories?: number;
+  prepMinutes?: number;
+  description?: string;
+  ingredients?: string[];
+  servedWith?: string[];
+  features?: string[];
+
+  // Optional extended details for motorcycle products
   brand?: string;
+  sku?: string;
+  weightGrams?: number;
   certificates?: string[];
   materials?: string[];
-  season?: string;
-  fit?: string;
-  weightGrams?: number;
-  warrantyMonths?: number;
-  modelYear?: number;
-  sku?: string;
   inBox?: string[];
-  features?: string[];
+  warranty?: string;
 };
 
 export type Filters = {
-  category: Category | 'All';
-  subcategory: string | 'All';
+  category: string;
+  subcategory: string;
   colors: string[];
-  sizes: Array<'S' | 'M' | 'L' | 'XL'>;
+  search?: string;
 };
 

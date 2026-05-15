@@ -48,6 +48,19 @@ export function Navbar() {
           >
             Shop
           </NavLink>
+          <NavLink
+            to="/menu"
+            className={({ isActive }) =>
+              cx(
+                navLinkBase,
+                isActive
+                  ? "text-white after:scale-x-100"
+                  : "text-white/75 hover:text-white hover:after:scale-x-100",
+              )
+            }
+          >
+            Menu
+          </NavLink>
         </nav>
       </div>
     </header>
