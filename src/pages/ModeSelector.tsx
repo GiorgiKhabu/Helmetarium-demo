@@ -38,13 +38,10 @@ export function ModeSelector() {
     <div className="relative">
       {/* Hero Section */}
       <section
-        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-night via-ink to-night bg-no-repeat bg-cover bg-top"
+        className="relative min-h-[calc(100vh-64px)] flex items-center justify-center overflow-hidden bg-gradient-to-br from-night via-ink to-night bg-no-repeat bg-cover bg-top"
         style={{ backgroundImage: `url(${helmBg})` }}
       >
-        <div
-          className="absolute inset-0 bg-black/35
-        "
-        />
+        <div className="absolute inset-0 bg-black/35" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <div
@@ -56,7 +53,12 @@ export function ModeSelector() {
             )}
           >
             <h1 className="text-6xl md:text-8xl font-bold tracking-tight text-white mb-6">
-              <span className="text-neonPink text-glow-soft" style={{textShadow: '0 0 10px black'}}>Ride With</span>
+              <span
+                className="text-neonPink text-glow-soft"
+                style={{ textShadow: "0 0 10px black" }}
+              >
+                Ride With
+              </span>
               <br />
               <span className="text-white">Identity</span>
             </h1>
@@ -90,12 +92,12 @@ export function ModeSelector() {
           </div>
 
           <div
-            className="absolute left-1/2 transform -translate-x-1/2 animate-bounce"
-            style={{ bottom: -150 }}
+            className="absolute left-1/2 transform animate-bounce"
+            style={{ bottom: -150, translate: "-50%" }}
           >
             <FontAwesomeIcon
               icon={faChevronDown}
-              className="h-6 w-6 text-white/60"
+              className="h-10 w-10 text-neonPink"
             />
           </div>
         </div>
@@ -169,23 +171,37 @@ export function ModeSelector() {
       </section>
 
       {/* Brand Story */}
-      <section className="py-20 px-4 bg-gradient-to-r from-night to-ink bg-cover bg-center min-h-[800px] "
-      style={{backgroundImage: `url(${maingBg})`}}>
-        <div className="max-w-4xl mx-auto text-center bg-black/50 p-4 rounded-2xl shadow-glowPink">
+      <section
+        className="bg-gradient-to-r from-night to-ink bg-cover bg-center px-4 py-20 min-h-[800px] d-flex items-center justify-center relative"
+        style={{ backgroundImage: `url(${maingBg})` }}
+      >
+        <div className="bg-black/35 absolute inset-0"></div>
+        <div className="mx-auto text-center relative z-10 flex flex-col items-center ">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
             The{" "}
-            <span className="text-neonPink text-glow-soft">Helmetarium</span>{" "}
+            <span
+              className="text-neonPink text-glow-soft"
+              style={{ textShadow: "0 0 5px black" }}
+            >
+              Helmetarium
+            </span>{" "}
             Story
           </h2>
-          <div className="">
+          <div className="max-w-[800px]">
             <div className={cx("text-left", fadeInClass(400))}>
-              <p className="text-lg text-white/80 mb-6">
+              <p
+                className="text-lg text-white mb-6 font-semibold"
+                style={{ textShadow: "0 0 5px black" }}
+              >
                 Born from a passion for the open road, Helmetarium represents
                 the fusion of cutting-edge technology, premium materials, and
                 uncompromising style. We believe that every rider deserves gear
                 that not only protects but also expresses their unique identity.
               </p>
-              <p className="text-lg text-white/80">
+              <p
+                className="text-lg text-white font-semibold"
+                style={{ textShadow: "0 0 5px black" }}
+              >
                 From our neon-accented helmets to our meticulously crafted
                 jackets, each piece is designed to withstand the demands of the
                 road while turning heads off it.
@@ -215,7 +231,7 @@ export function ModeSelector() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[r1, r2, r3, r4, r5, r6].map((src, i) => (
               <img
                 src={src}
