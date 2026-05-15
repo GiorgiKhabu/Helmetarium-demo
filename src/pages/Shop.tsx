@@ -6,7 +6,6 @@ import {
   faMapMarkerAlt,
   faPhone,
   faClock,
-  faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { faFacebook, faInstagram } from "@fortawesome/free-brands-svg-icons";
 import { ProductCard } from "../components/ProductCard";
